@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -42,6 +43,9 @@ public class SecurityConfig {
                 // admin 사용자만 접근 가능
 //                .antMatchers("/jwt-login/admin/**").hasAuthority(UserRole.ADMIN.name())
                 // 정의되지 않은 모든 요청은 인증 없이 접근을 허용합니다.
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/users/login"))
                 .and()
                 .logout() // 로그아웃 설정 추가
                 .logoutUrl("/users/logout") // 로그아웃 처리 URL

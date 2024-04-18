@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.hany.studybasic.enum_class.UserRole;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class) //  createAt을 위한 설정  엔티티의 생명주기 이벤트에 반응
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,9 @@ public class User {
     private String password;
     private String nickname;
     private UserRole userRole;
+
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;    // 가입 시간
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
